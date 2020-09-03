@@ -25,9 +25,9 @@
     "gelfie": "x.x.x"
   },
   "devDependencies": {
-    "@hapi/hapi": "19.x.x",
-    "@hapi/lab": "22.x.x",
-    "belly-button": "6.x.x"
+    "@hapi/hapi": "20.x.x",
+    "@hapi/lab": "23.x.x",
+    "belly-button": "7.x.x"
   },
   "keywords": []
 }
