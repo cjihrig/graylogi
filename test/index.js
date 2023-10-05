@@ -47,6 +47,8 @@ describe('Graylogi', () => {
     check({ onError: 'foo' }, /^TypeError: onError must be a function$/);
     check({ additionalFields: 5 }, /^TypeError: additionalFields must be an object$/);
     check({ additionalFields: null }, /^TypeError: additionalFields must be an object$/);
+    check({ redactedFields: null }, /^TypeError: redactedFields must be an array$/);
+    check({ redactedFields: [5] }, /^TypeError: redactedFields\[0\] must be a string$/);
   });
 
   it('handles "start" and "stop" events by default', async () => {
@@ -557,12 +559,16 @@ describe('Graylogi', () => {
   it('validates "response" payload format', async () => {
     const server = await createServer({
       events: ['response'],
-      additionalFields: { pid: process.pid }
+      additionalFields: { pid: process.pid },
+      redactedFields: ['req.headers.x-authorization', 'whatever']
     });
     const res = await server.inject({
       method: 'POST',
       url: '/handler/with/payload?q=1&x=9',
-      headers: { 'x-test-header': 'abc123' },
+      headers: {
+        'x-test-header': 'abc123',
+        'x-authorization': 'some secret value'
+      },
       payload: {
         foo: 'abc',
         bar: 5,
@@ -581,6 +587,8 @@ describe('Graylogi', () => {
     Assert.strictEqual(event.req.method, 'post');
     Assert.strictEqual(event.req.path, '/handler/with/payload');
     Assert.strictEqual(event.req.headers['x-test-header'], 'abc123');
+    // redactedFields:
+    Assert.strictEqual(event.req.headers['x-authorization'], '***');
     Assert.deepEqual(event.req.query, { q: '1', x: '9' });
     Assert.deepStrictEqual(event.req.payload, {
       foo: 'abc',
