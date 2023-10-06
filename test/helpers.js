@@ -7,16 +7,16 @@ const kAnyValue = Symbol('kAnyValue');
 
 
 class MockLogger extends EventEmitter {
-  constructor () {
+  constructor() {
     super();
     this.items = [];
   }
 
-  connect () {
+  connect() {
     this.items.push('connect');
   }
 
-  close () {
+  close() {
     this.items.push('close');
   }
 }
@@ -32,12 +32,12 @@ class MockLogger extends EventEmitter {
   'debug',
   'log'
 ].forEach((level) => {
-  MockLogger.prototype[level] = function (...args) {
+  MockLogger.prototype[level] = function(...args) {
     this.items.push([level, ...args]);
   };
 });
 
-async function createServer (options = {}) {
+async function createServer(options = {}) {
   const server = new Hapi.Server();
 
   if (options.logger === undefined) {
@@ -47,40 +47,40 @@ async function createServer (options = {}) {
   // Attach the logger so tests have access to it.
   server.__logger = options.logger;
 
-  function simpleHandler () {
+  function simpleHandler() {
     return 'success';
   }
 
-  function handlerThatServerLogsInfo (request) {
+  function handlerThatServerLogsInfo(request) {
     server.log(['info', 'foo'], 'server.log() from handler');
     return 'success';
   }
 
-  function handlerThatServerLogsError (request) {
+  function handlerThatServerLogsError(request) {
     server.log(['info', 'error', 'debug'], 'server.log() from handler');
     return 'success';
   }
 
-  function handlerThatServerLogsDefaultLevel (request) {
+  function handlerThatServerLogsDefaultLevel(request) {
     server.log(['foo'], 'server.log() from handler');
     return 'success';
   }
 
-  function handlerThatRequestLogsInfo (request) {
+  function handlerThatRequestLogsInfo(request) {
     request.log(['info', 'foo'], 'request.log() from handler');
     return 'success';
   }
 
-  function handlerThatRequestLogsDefaultLevel (request) {
+  function handlerThatRequestLogsDefaultLevel(request) {
     request.log(['foo'], 'request.log() from handler');
     return 'success';
   }
 
-  function handlerThatRequestThrows (request) {
+  function handlerThatRequestThrows(request) {
     throw new Error('oh no!');
   }
 
-  function handlerWithPayload (request) {
+  function handlerWithPayload(request) {
     return request.payload;
   }
 
@@ -156,7 +156,7 @@ async function createServer (options = {}) {
 }
 
 
-function validateObject (actual, expected) {
+function validateObject(actual, expected) {
   const actualKeys = Object.keys(actual);
 
   Assert.deepStrictEqual(actualKeys, Object.keys(expected));

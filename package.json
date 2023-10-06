@@ -1,6 +1,6 @@
 {
   "name": "graylogi",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Graylog logger for hapi",
   "author": "Colin J. Ihrig <cjihrig@gmail.com> (http://www.cjihrig.com/)",
   "main": "lib/index.js",
@@ -25,9 +25,9 @@
     "gelfie": "x.x.x"
   },
   "devDependencies": {
-    "@hapi/hapi": "20.x.x",
-    "@hapi/lab": "23.x.x",
-    "belly-button": "7.x.x"
+    "@hapi/hapi": "21.x.x",
+    "@hapi/lab": "25.x.x",
+    "belly-button": "8.x.x"
   },
   "keywords": []
 }

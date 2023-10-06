@@ -14,7 +14,7 @@ const { describe, it } = exports.lab = Lab.script();
 
 describe('Graylogi', () => {
   it('validates register() inputs', () => {
-    async function check (options, err) {
+    async function check(options, err) {
       const server = new Hapi.Server();
 
       if (typeof options === 'object' && options.logger === undefined) {
@@ -442,7 +442,7 @@ describe('Graylogi', () => {
 
       createServer({
         logger,
-        onError (err) {
+        onError(err) {
           Assert.strictEqual(err, testError);
           resolve();
         }
